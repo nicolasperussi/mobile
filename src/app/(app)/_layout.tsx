@@ -28,10 +28,10 @@ export default function AppLayout() {
 
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        {/* <Stack.Screen
-        name="[product]"
-        options={{ presentation: "modal", headerShown: false }}
-      /> */}
+        <Stack.Screen
+          name="[product]"
+          options={{ presentation: "modal", headerShown: false }}
+        />
       </Stack>
     </ProductProvider>
   );

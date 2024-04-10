@@ -1,6 +1,6 @@
 import { IProduct } from "@/types/product.interface";
-import { useRouter } from "expo-router";
-import { Text, View } from "react-native";
+import { Link, useRouter } from "expo-router";
+import { Pressable, Text, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
 import BRL from "@/utils/BRL";
 
@@ -9,7 +9,10 @@ function ProductCard(props: IProduct) {
 
   // TODO: add redirection to product modal/page - onPress={() => router.push(`${props.slug}`)}
   return (
-    <View className="h-[250px] bg-background-secondary flex-col flex-[50%] rounded-lg overflow-hidden">
+    <Pressable
+      onPress={() => router.push(`/(app)/${props.slug}`)}
+      className="h-[250px] bg-background-secondary flex-col flex-[50%] rounded-lg overflow-hidden"
+    >
       <Image
         style={{ width: "100%", height: "50%" }}
         contentFit="cover"
@@ -32,7 +35,7 @@ function ProductCard(props: IProduct) {
           {BRL(props.price)}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
