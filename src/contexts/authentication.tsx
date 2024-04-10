@@ -44,7 +44,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
             .then((res) => {
               setSession(res.data.token);
               setUser(JSON.stringify(res.data.user));
-              router.replace("/(app)");
+              router.replace("/(app)/(tabs)");
             })
             .catch((err) => console.log(err.message));
         },

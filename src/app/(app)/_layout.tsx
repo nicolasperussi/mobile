@@ -2,12 +2,14 @@ import { Redirect, Stack } from "expo-router";
 
 import { useSession } from "@/contexts/authentication";
 import { Text } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { ProductProvider } from "@/contexts/products";
 
 export default function AppLayout() {
-  const { session, isLoading } = useSession();
+  const { session, isLoadingSession } = useSession();
 
   // You can keep the splash screen open, or render a loading screen like we do here.
-  if (isLoading) {
+  if (isLoadingSession) {
     return <Text>Loading...</Text>;
   }
 
@@ -20,5 +22,17 @@ export default function AppLayout() {
   }
 
   // This layout can be deferred because it's not the root layout.
-  return <Stack />;
+  return (
+    <ProductProvider>
+      <StatusBar style="light" />
+
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        {/* <Stack.Screen
+        name="[product]"
+        options={{ presentation: "modal", headerShown: false }}
+      /> */}
+      </Stack>
+    </ProductProvider>
+  );
 }
