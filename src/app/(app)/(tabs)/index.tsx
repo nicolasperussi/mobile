@@ -4,13 +4,17 @@ import { useCart } from "@/contexts/cart";
 import { useProducts } from "@/contexts/products";
 import BRL from "@/utils/BRL";
 import { useRouter } from "expo-router";
+import { createRef, useEffect, useRef, useState } from "react";
 import {
   FlatList,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { twMerge } from "tailwind-merge";
 
 const categories = [
   {
@@ -51,6 +55,30 @@ export default function Index() {
   const { items, totalPrice } = useCart();
   const router = useRouter();
   const numColumns = 2;
+
+  const sectionRefs = useRef<{ [key: number]: View | null }>({});
+  const scrollViewRef = useRef<ScrollView | null>(null);
+  const [scrollYOffset, setScrollYOffset] = useState(0);
+  const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
+
+  // TODO: also scroll category FlatList when scrolling to category
+  function scrollToCategory(categoryIndex: number) {
+    sectionRefs.current[categoryIndex]!.measure(
+      (fx, fy, width, height, px, py) =>
+        scrollViewRef?.current?.scrollTo({ y: fy, animated: true })
+    );
+  }
+
+  function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
+    setScrollYOffset(event.nativeEvent.contentOffset.y);
+  }
+
+  useEffect(() => {
+    if (scrollYOffset < 1380.5) return setCurrentCategoryIndex(0);
+    if (scrollYOffset < 2495) return setCurrentCategoryIndex(1);
+    if (scrollYOffset < 3609.5) return setCurrentCategoryIndex(2);
+    return setCurrentCategoryIndex(3);
+  }, [scrollYOffset]);
 
   return (
     products && (
@@ -98,11 +126,26 @@ export default function Index() {
             showsHorizontalScrollIndicator={false}
             data={categories}
             renderItem={({ item, index }) => {
-              // TODO: scroll screen to match selected category
               return (
-                <TouchableOpacity activeOpacity={0.8}>
-                  <View className="rounded-lg bg-background-secondary px-6 h-16 justify-center">
-                    <Text className="text-foreground-primary">
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => scrollToCategory(index)}
+                >
+                  <View
+                    className={twMerge(
+                      "rounded-lg px-6 h-16 justify-center",
+                      currentCategoryIndex === index
+                        ? "bg-tint"
+                        : "bg-background-secondary"
+                    )}
+                  >
+                    <Text
+                      className={
+                        currentCategoryIndex === index
+                          ? "text-foreground-primary font-medium"
+                          : "text-foreground-primary"
+                      }
+                    >
                       {item.title}
                     </Text>
                   </View>
@@ -112,9 +155,18 @@ export default function Index() {
             horizontal
           />
         </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          onScroll={handleScroll}
+          scrollEventThrottle={1000}
+          ref={scrollViewRef}
+        >
           {categories.map((category, index) => (
-            <View className="mb-6" key={index}>
+            <View
+              className="mb-6"
+              key={index}
+              ref={(ref) => (sectionRefs.current[index] = ref)}
+            >
               <Text className="text-foreground-primary text-2xl mb-4 font-medium">
                 {category.title}
               </Text>

@@ -35,6 +35,7 @@ function Address() {
     router.back();
   }
 
+  // TODO: add option to add new address to account
   return (
     <Pressable
       onPress={Keyboard.dismiss}
