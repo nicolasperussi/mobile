@@ -9,12 +9,20 @@ const AuthContext = React.createContext<{
   signOut: () => void;
   session?: string | null;
   user?: IClient | null;
+  selectedAddress?: {
+    cep: string;
+    street: string;
+    number: string;
+  } | null;
+  setAddress: (value: string | null) => void;
   isLoadingSession: boolean;
   isLoadingUser: boolean;
 }>({
   signIn: () => null,
   signOut: () => null,
   session: null,
+  selectedAddress: null,
+  setAddress: () => null,
   isLoadingSession: false,
   isLoadingUser: false,
 });
@@ -34,6 +42,8 @@ export function useSession() {
 export function SessionProvider(props: React.PropsWithChildren) {
   const [[isLoadingSession, session], setSession] = useStorageState("session");
   const [[isLoadingUser, user], setUser] = useStorageState("user");
+  const [[isLoadingAddress, selectedAddress], setAddress] =
+    useStorageState("selectedAddress");
 
   return (
     <AuthContext.Provider
@@ -44,6 +54,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
             .then((res) => {
               setSession(res.data.token);
               setUser(JSON.stringify(res.data.user));
+              setAddress(JSON.stringify(res.data.user.addresses[0]));
               router.replace("/(app)/(tabs)");
             })
             .catch((err) => console.log(err.message));
@@ -54,6 +65,8 @@ export function SessionProvider(props: React.PropsWithChildren) {
         },
         session,
         user: user ? JSON.parse(user) : null,
+        selectedAddress: selectedAddress ? JSON.parse(selectedAddress) : null,
+        setAddress,
         isLoadingSession,
         isLoadingUser,
       }}

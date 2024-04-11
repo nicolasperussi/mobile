@@ -54,7 +54,6 @@ export default function SignIn() {
               </TouchableOpacity> */}
             </View>
 
-            {/* TODO: Implement API calls to login user */}
             <Button text="Entrar" onPress={() => signIn(email, password)} />
           </View>
         </View>

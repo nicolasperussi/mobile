@@ -7,7 +7,6 @@ import BRL from "@/utils/BRL";
 function ProductCard(props: IProduct) {
   const router = useRouter();
 
-  // TODO: add redirection to product modal/page - onPress={() => router.push(`${props.slug}`)}
   return (
     <Pressable
       onPress={() => router.push(`/(app)/${props.slug}`)}

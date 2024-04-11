@@ -11,16 +11,7 @@ import { useRouter } from "expo-router";
 function Cart() {
   const router = useRouter();
   const { items, placeOrder } = useCart();
-  const { user } = useSession();
-  const [address, setAddress] = useState<{
-    cep: string;
-    street: string;
-    number: string;
-  } | null>(null);
-
-  useEffect(() => {
-    setAddress(user?.addresses[0] ?? null);
-  }, []);
+  const { user, selectedAddress } = useSession();
 
   return (
     <View className="flex-1 bg-background-secondary px-8 pb-10 gap-8">
@@ -38,20 +29,24 @@ function Cart() {
           <View className="my-6 h-[1px] bg-foreground-primary w-full opacity-10" />
         )}
       />
-      {address ? (
-        // TODO: add alert/modal to choose from user addresses or add new address
-        <Pressable className="w-full p-8 border border-foreground-primary rounded-lg flex-row justify-between items-center">
+      {selectedAddress ? (
+        <Pressable
+          onPress={() => router.push("/(app)/address")}
+          className="w-full p-8 border border-foreground-primary rounded-lg flex-row justify-between items-center"
+        >
           <View>
             <Text className="text-sm text-foreground-primary">Entregar em</Text>
             <Text className="text-xl text-foreground-primary">
-              {address.street}, {address.number}
+              {selectedAddress.street}, {selectedAddress.number}
             </Text>
           </View>
           <Icon name="chevron-down" color={colors.tint} size={20} />
         </Pressable>
       ) : (
-        // TODO: add alert/modal to add new address to account
-        <Pressable className="w-full p-8 border border-foreground-primary rounded-lg flex-row justify-between items-center">
+        <Pressable
+          onPress={() => router.push("/(app)/address")}
+          className="w-full p-8 border border-foreground-primary rounded-lg flex-row justify-between items-center"
+        >
           <Text className="text-xl text-foreground-primary">
             Adicionar novo endereço
           </Text>
@@ -60,7 +55,7 @@ function Cart() {
       )}
       <Button
         onPress={() => {
-          placeOrder(address!);
+          placeOrder(selectedAddress!);
           router.back();
         }}
         text="Finalizar pedido"

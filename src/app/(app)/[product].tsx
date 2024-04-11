@@ -96,10 +96,8 @@ function Product() {
           </View>
           <Button
             text={`Adicionar - ${BRL(product.price * quantity)}`}
-            // TODO: create cart context and call addToCart correctly, then go back to index/products page
             onPress={() => {
               addToCart(product, quantity);
-              // TODO: fix this
               router.back();
             }}
           />

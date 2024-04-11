@@ -38,6 +38,29 @@ export default function AppLayout() {
             options={{ presentation: "modal", headerShown: false }}
           />
           <Stack.Screen
+            name="address"
+            options={{
+              presentation: "modal",
+              header: () => (
+                <View className="bg-background-secondary h-16 items-center justify-center flex-row relative">
+                  <Pressable
+                    onPress={() => router.back()}
+                    className="absolute left-8"
+                  >
+                    <Icon
+                      name="chevron-down"
+                      size={16}
+                      color={colors.foreground.primary}
+                    />
+                  </Pressable>
+                  <Text className="text-foreground-primary text-lg font-medium">
+                    Selecionar endereço
+                  </Text>
+                </View>
+              ),
+            }}
+          />
+          <Stack.Screen
             name="cart"
             options={{
               presentation: "modal",
