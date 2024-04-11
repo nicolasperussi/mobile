@@ -1,16 +1,20 @@
 import { useProducts } from "@/contexts/products";
 import BRL from "@/utils/BRL";
 import { Image } from "expo-image";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Icon from "@expo/vector-icons/FontAwesome5";
 import { colors } from "@/styles/colors";
 import Button from "@/components/button";
+import { useCart } from "@/contexts/cart";
 
 function Product() {
+  const router = useRouter();
   const slug = useLocalSearchParams().product;
   const product = useProducts().products?.find((p) => p.slug === slug);
+
+  const { addToCart } = useCart();
 
   if (!product) {
     return null;
@@ -94,8 +98,9 @@ function Product() {
             text={`Adicionar - ${BRL(product.price * quantity)}`}
             // TODO: create cart context and call addToCart correctly, then go back to index/products page
             onPress={() => {
-              // addToCart({ product: { ...product }, quantity });
-              // navigation.navigate("index" as never);
+              addToCart(product, quantity);
+              // TODO: fix this
+              router.back();
             }}
           />
         </View>

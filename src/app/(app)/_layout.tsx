@@ -1,12 +1,16 @@
-import { Redirect, Stack } from "expo-router";
+import { Redirect, Stack, useRouter } from "expo-router";
 
 import { useSession } from "@/contexts/authentication";
-import { Text } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { ProductProvider } from "@/contexts/products";
+import { CartProvider } from "@/contexts/cart";
+import Icon from "@expo/vector-icons/FontAwesome5";
+import { colors } from "@/styles/colors";
 
 export default function AppLayout() {
   const { session, isLoadingSession } = useSession();
+  const router = useRouter();
 
   // You can keep the splash screen open, or render a loading screen like we do here.
   if (isLoadingSession) {
@@ -24,15 +28,40 @@ export default function AppLayout() {
   // This layout can be deferred because it's not the root layout.
   return (
     <ProductProvider>
-      <StatusBar style="light" />
+      <CartProvider>
+        <StatusBar style="light" />
 
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="[product]"
-          options={{ presentation: "modal", headerShown: false }}
-        />
-      </Stack>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="[product]"
+            options={{ presentation: "modal", headerShown: false }}
+          />
+          <Stack.Screen
+            name="cart"
+            options={{
+              presentation: "modal",
+              header: () => (
+                <View className="bg-background-secondary h-16 items-center justify-center flex-row relative">
+                  <Pressable
+                    onPress={() => router.back()}
+                    className="absolute left-8"
+                  >
+                    <Icon
+                      name="chevron-down"
+                      size={16}
+                      color={colors.foreground.primary}
+                    />
+                  </Pressable>
+                  <Text className="text-foreground-primary text-lg font-medium">
+                    Carrinho
+                  </Text>
+                </View>
+              ),
+            }}
+          />
+        </Stack>
+      </CartProvider>
     </ProductProvider>
   );
 }

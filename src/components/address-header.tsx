@@ -5,6 +5,8 @@ import { colors } from "@/styles/colors";
 
 function AddressHeader() {
   const { user } = useSession();
+
+  // TODO: add alert/modal to choose from user addresses or add new address
   return user?.addresses && user.addresses.length > 0 ? (
     <>
       <Text className="text-foreground-primary text-lg font-medium">
