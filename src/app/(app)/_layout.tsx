@@ -9,11 +9,11 @@ import Icon from "@expo/vector-icons/FontAwesome5";
 import { colors } from "@/styles/colors";
 
 export default function AppLayout() {
-  const { session, isLoadingSession } = useSession();
+  const { session, isLoadingSession, isLoadingUser } = useSession();
   const router = useRouter();
 
   // You can keep the splash screen open, or render a loading screen like we do here.
-  if (isLoadingSession) {
+  if (isLoadingSession || isLoadingUser) {
     return <Text>Loading...</Text>;
   }
 
@@ -27,64 +27,62 @@ export default function AppLayout() {
 
   // This layout can be deferred because it's not the root layout.
   return (
-    <ProductProvider>
-      <CartProvider>
-        <StatusBar style="light" />
+    <>
+      <StatusBar style="light" />
 
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="[product]"
-            options={{ presentation: "modal", headerShown: false }}
-          />
-          <Stack.Screen
-            name="address"
-            options={{
-              presentation: "modal",
-              header: () => (
-                <View className="bg-background-secondary h-16 items-center justify-center flex-row relative">
-                  <Pressable
-                    onPress={() => router.back()}
-                    className="absolute left-8"
-                  >
-                    <Icon
-                      name="chevron-down"
-                      size={16}
-                      color={colors.foreground.primary}
-                    />
-                  </Pressable>
-                  <Text className="text-foreground-primary text-lg font-medium">
-                    Selecionar endereço
-                  </Text>
-                </View>
-              ),
-            }}
-          />
-          <Stack.Screen
-            name="cart"
-            options={{
-              presentation: "modal",
-              header: () => (
-                <View className="bg-background-secondary h-16 items-center justify-center flex-row relative">
-                  <Pressable
-                    onPress={() => router.back()}
-                    className="absolute left-8"
-                  >
-                    <Icon
-                      name="chevron-down"
-                      size={16}
-                      color={colors.foreground.primary}
-                    />
-                  </Pressable>
-                  <Text className="text-foreground-primary text-lg font-medium">
-                    Carrinho
-                  </Text>
-                </View>
-              ),
-            }}
-          />
-        </Stack>
-      </CartProvider>
-    </ProductProvider>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="[product]"
+          options={{ presentation: "modal", headerShown: false }}
+        />
+        <Stack.Screen
+          name="address"
+          options={{
+            presentation: "modal",
+            header: () => (
+              <View className="bg-background-secondary h-16 items-center justify-center flex-row relative">
+                <Pressable
+                  onPress={() => router.back()}
+                  className="absolute left-8"
+                >
+                  <Icon
+                    name="chevron-down"
+                    size={16}
+                    color={colors.foreground.primary}
+                  />
+                </Pressable>
+                <Text className="text-foreground-primary text-lg font-medium">
+                  Selecionar endereço
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="cart"
+          options={{
+            presentation: "modal",
+            header: () => (
+              <View className="bg-background-secondary h-16 items-center justify-center flex-row relative">
+                <Pressable
+                  onPress={() => router.back()}
+                  className="absolute left-8"
+                >
+                  <Icon
+                    name="chevron-down"
+                    size={16}
+                    color={colors.foreground.primary}
+                  />
+                </Pressable>
+                <Text className="text-foreground-primary text-lg font-medium">
+                  Carrinho
+                </Text>
+              </View>
+            ),
+          }}
+        />
+      </Stack>
+    </>
   );
 }

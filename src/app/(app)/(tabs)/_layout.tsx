@@ -47,6 +47,22 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="orders"
+        options={{
+          title: "Pedidos",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="receipt" color={color} />
+          ),
+          header: () => (
+            <Header>
+              <Text className="text-foreground-primary text-lg font-medium">
+                Meus Pedidos
+              </Text>
+            </Header>
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           header: () => (

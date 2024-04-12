@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IProduct } from "@/types/product.interface";
 import { api } from "@/services/api";
-import { useSession } from "./authentication";
 
 const ProductContext = React.createContext<{
   products: Array<IProduct>;
