@@ -1,6 +1,6 @@
 import { useOrders } from "@/contexts/orders";
 import { Image } from "expo-image";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { FlatList, Pressable, ScrollView, Text, View } from "react-native";
 import Icon from "@expo/vector-icons/FontAwesome6";
 import { colors } from "@/styles/colors";
 import dayjs from "dayjs";
@@ -10,24 +10,28 @@ import getOrderStatus from "@/utils/order-status";
 import { twMerge } from "tailwind-merge";
 import { useCart } from "@/contexts/cart";
 import { useRouter } from "expo-router";
+import { IOrder } from "@/types/order.interface";
 
 dayjs.locale(ptBR);
 dayjs.extend(localizedFormat);
 
 function Orders() {
-  const { orders } = useOrders();
+  const { orders, isLoading, fetchOrders } = useOrders();
   const { addToCart } = useCart();
   const router = useRouter();
 
   return (
     orders && (
       <View className="flex-1 bg-background-primary px-6">
-        <ScrollView
+        <FlatList
           contentContainerStyle={{ gap: 24, paddingVertical: 24 }}
           showsVerticalScrollIndicator={false}
-        >
-          {/* TODO: redirect to order page on press */}
-          {orders.map((order) => (
+          keyExtractor={(order) => order.id.toString()}
+          data={orders}
+          // TODO: add refresh loading indicator
+          refreshing={isLoading}
+          onRefresh={fetchOrders}
+          renderItem={({ item: order, index }) => (
             <View
               key={order.id}
               className="rounded-lg bg-background-secondary p-6 gap-4"
@@ -100,7 +104,6 @@ function Orders() {
                 <Text className="text-foreground-secondary font-medium text-lg">
                   {dayjs(order.moment).format("D MMM[.] YYYY, HH[:]mm")}
                 </Text>
-                {/* TODO: add function to press and add items to cart */}
                 <Pressable
                   onPress={() => {
                     order.items.forEach((item) =>
@@ -115,8 +118,8 @@ function Orders() {
                 </Pressable>
               </View>
             </View>
-          ))}
-        </ScrollView>
+          )}
+        />
       </View>
     )
   );

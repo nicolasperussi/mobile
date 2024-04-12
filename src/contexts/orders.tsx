@@ -7,10 +7,12 @@ const OrderContext = React.createContext<{
   orders: Array<IOrder>;
   isLoading: boolean;
   addOrder(order: IOrder): void;
+  fetchOrders(): void;
 }>({
   orders: [],
   isLoading: false,
   addOrder: () => {},
+  fetchOrders: () => {},
 });
 
 export function useOrders() {
@@ -33,22 +35,27 @@ export function OrderProvider(props: React.PropsWithChildren) {
     setOrders((prev) => [order, ...prev]);
   }
 
+  function fetchOrders() {
+    setIsLoading(true);
+    api
+      .get(`/orders/user/${user?.id}`, {
+        headers: { Authorization: `Bearer ${session}` },
+      })
+      .then((res) => {
+        setOrders(res.data);
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setIsLoading(false));
+  }
+
   useEffect(() => {
     if (!(isLoadingSession || isLoadingUser)) {
-      api
-        .get(`/orders/user/${user?.id}`, {
-          headers: { Authorization: `Bearer ${session}` },
-        })
-        .then((res) => {
-          setOrders(res.data);
-        })
-        .catch((err) => console.error(err))
-        .finally(() => setIsLoading(false));
+      fetchOrders();
     }
   }, [isLoadingSession, isLoadingUser]);
 
   return (
-    <OrderContext.Provider value={{ orders, isLoading, addOrder }}>
+    <OrderContext.Provider value={{ orders, isLoading, addOrder, fetchOrders }}>
       {props.children}
     </OrderContext.Provider>
   );
