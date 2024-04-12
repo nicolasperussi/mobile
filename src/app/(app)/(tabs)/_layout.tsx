@@ -33,6 +33,7 @@ export default function TabLayout() {
           // backgroundColor: "red",
         },
         tabBarActiveTintColor: colors.tint,
+        tabBarInactiveTintColor: "rgba(115, 115, 115, 0.5)",
         tabBarLabelStyle: { fontFamily: "Poppins_400Regular" },
       }}
     >

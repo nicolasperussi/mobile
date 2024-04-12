@@ -7,7 +7,7 @@ export default function getOrderStatus(
     return {
       status,
       color: "bg-green-400",
-      display: "Entregue",
+      display: "Pedido finalizado",
       icon: "check",
     };
   if (status === "IN_PRODUCTION")
