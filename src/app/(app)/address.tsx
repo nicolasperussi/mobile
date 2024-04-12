@@ -35,7 +35,7 @@ function Address() {
     router.back();
   }
 
-  // TODO: add option to add new address to account
+  // TODO: add option to add new address to account (you can use prompt, asking for a CEP or street name, verifying if it is valid [regex and viacep] and adding it to list)
   return (
     <Pressable
       onPress={Keyboard.dismiss}

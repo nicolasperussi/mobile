@@ -10,6 +10,7 @@ const CartContext = React.createContext<{
   totalPrice: number;
   addToCart(product: IProduct, quantity: number): void;
   removeFromCart(product: IProduct, quantity: number): void;
+  clearCart(): void;
   placeOrder(address: {
     cep: string;
     street: string;
@@ -20,6 +21,7 @@ const CartContext = React.createContext<{
   totalPrice: 0,
   addToCart(product, quantity) {},
   removeFromCart(product, quantity) {},
+  clearCart: () => {},
   async placeOrder(address: { cep: string; street: string; number: string }) {},
 });
 
@@ -113,7 +115,14 @@ export function CartProvider(props: React.PropsWithChildren) {
 
   return (
     <CartContext.Provider
-      value={{ items, addToCart, removeFromCart, totalPrice, placeOrder }}
+      value={{
+        items,
+        addToCart,
+        removeFromCart,
+        totalPrice,
+        placeOrder,
+        clearCart,
+      }}
     >
       {props.children}
     </CartContext.Provider>

@@ -1,15 +1,16 @@
 import { Redirect, Stack, useRouter } from "expo-router";
 
 import { useSession } from "@/contexts/authentication";
-import { Pressable, Text, View } from "react-native";
+import { Alert, Pressable, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { ProductProvider } from "@/contexts/products";
-import { CartProvider } from "@/contexts/cart";
+import { CartProvider, useCart } from "@/contexts/cart";
 import Icon from "@expo/vector-icons/FontAwesome5";
 import { colors } from "@/styles/colors";
 
 export default function AppLayout() {
   const { session, isLoadingSession, isLoadingUser } = useSession();
+  const { items, clearCart } = useCart();
   const router = useRouter();
 
   // You can keep the splash screen open, or render a loading screen like we do here.
@@ -78,6 +79,33 @@ export default function AppLayout() {
                 <Text className="text-foreground-primary text-lg font-medium">
                   Carrinho
                 </Text>
+                {items && (
+                  <Pressable
+                    onPress={() => {
+                      Alert.alert(
+                        "Esvaziar sacola",
+                        "Deseja realmente esvaziar sua sacola?",
+                        [
+                          {
+                            text: "Cancelar",
+                            style: "cancel",
+                          },
+                          {
+                            text: "Confirmar",
+                            onPress: () => {
+                              clearCart();
+                              router.back();
+                            },
+                          },
+                        ],
+                        { userInterfaceStyle: "dark" }
+                      );
+                    }}
+                    className="absolute right-8"
+                  >
+                    <Icon name="trash" size={16} color={"indianred"} />
+                  </Pressable>
+                )}
               </View>
             ),
           }}

@@ -8,12 +8,17 @@ import ptBR from "dayjs/locale/pt-br";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import getOrderStatus from "@/utils/order-status";
 import { twMerge } from "tailwind-merge";
+import { useCart } from "@/contexts/cart";
+import { useRouter } from "expo-router";
 
 dayjs.locale(ptBR);
 dayjs.extend(localizedFormat);
 
 function Orders() {
   const { orders } = useOrders();
+  const { addToCart } = useCart();
+  const router = useRouter();
+
   return (
     orders && (
       <View className="flex-1 bg-background-primary px-6">
@@ -96,7 +101,14 @@ function Orders() {
                   {dayjs(order.moment).format("D MMM[.] YYYY, HH[:]mm")}
                 </Text>
                 {/* TODO: add function to press and add items to cart */}
-                <Pressable>
+                <Pressable
+                  onPress={() => {
+                    order.items.forEach((item) =>
+                      addToCart(item.product, item.quantity)
+                    );
+                    router.push("/(app)/cart");
+                  }}
+                >
                   <Text className="text-lg font-medium text-tint">
                     Refazer pedido
                   </Text>
