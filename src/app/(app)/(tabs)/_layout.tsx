@@ -4,6 +4,7 @@ import { colors } from "@/styles/colors";
 import Icon from "@expo/vector-icons/FontAwesome5";
 import { Tabs } from "expo-router";
 import { Text } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof Icon>["name"];
@@ -13,14 +14,23 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
+  const safeInsets = useSafeAreaInsets();
   // TODO: change tab bar style to figma layout
   return (
     <Tabs
       screenOptions={{
         tabBarStyle: {
           backgroundColor: colors.background.secondary,
-          elevation: 0,
           borderTopWidth: 0,
+          height: 64 + safeInsets.bottom,
+        },
+        tabBarItemStyle: {
+          alignItems: "center",
+          width: 64,
+          height: 64,
+          borderRadius: 8,
+          paddingTop: safeInsets.bottom / 2,
+          // backgroundColor: "red",
         },
         tabBarActiveTintColor: colors.tint,
         tabBarLabelStyle: { fontFamily: "Poppins_400Regular" },
