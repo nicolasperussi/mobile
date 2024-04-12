@@ -11,6 +11,7 @@ import { twMerge } from "tailwind-merge";
 import { useCart } from "@/contexts/cart";
 import { useRouter } from "expo-router";
 import { IOrder } from "@/types/order.interface";
+import FloatingCart from "@/components/floating-cart";
 
 dayjs.locale(ptBR);
 dayjs.extend(localizedFormat);
@@ -23,6 +24,7 @@ function Orders() {
   return (
     orders && (
       <View className="flex-1 bg-background-primary px-6">
+        <FloatingCart />
         <FlatList
           contentContainerStyle={{ gap: 24, paddingVertical: 24 }}
           showsVerticalScrollIndicator={false}
