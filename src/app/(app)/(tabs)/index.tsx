@@ -56,12 +56,13 @@ export default function Index() {
   const router = useRouter();
   const numColumns = 2;
 
+  const flatListRef = useRef<FlatList | null>(null);
+
   const sectionRefs = useRef<{ [key: number]: View | null }>({});
   const scrollViewRef = useRef<ScrollView | null>(null);
-  const [scrollYOffset, setScrollYOffset] = useState(0);
+
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
 
-  // TODO: also scroll category FlatList when scrolling to category
   function scrollToCategory(categoryIndex: number) {
     sectionRefs.current[categoryIndex]!.measure(
       (fx, fy, width, height, px, py) =>
@@ -70,19 +71,38 @@ export default function Index() {
   }
 
   function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
-    setScrollYOffset(event.nativeEvent.contentOffset.y);
-  }
-
-  useEffect(() => {
-    if (scrollYOffset < 1380.5) return setCurrentCategoryIndex(0);
-    if (scrollYOffset < 2495) return setCurrentCategoryIndex(1);
-    if (scrollYOffset < 3609.5) return setCurrentCategoryIndex(2);
+    const scrollYOffset = event.nativeEvent.contentOffset.y;
+    if (scrollYOffset < 1380.5) {
+      flatListRef.current?.scrollToIndex({
+        index: 0,
+        animated: true,
+      });
+      return setCurrentCategoryIndex(0);
+    }
+    if (scrollYOffset < 2495) {
+      flatListRef.current?.scrollToIndex({
+        index: 1,
+        animated: true,
+      });
+      return setCurrentCategoryIndex(1);
+    }
+    if (scrollYOffset < 3609.5) {
+      flatListRef.current?.scrollToIndex({
+        index: 2,
+        animated: true,
+      });
+      return setCurrentCategoryIndex(2);
+    }
+    flatListRef.current?.scrollToIndex({
+      index: 3,
+      animated: true,
+    });
     return setCurrentCategoryIndex(3);
-  }, [scrollYOffset]);
+  }
 
   return (
     products && (
-      <View className="flex-1 bg-background-primary pt-10 px-6">
+      <View className="flex-1 bg-background-primary pt-8">
         {items.length > 0 && (
           <View
             className="absolute w-screen h-20 bg-background-secondary z-50 bottom-0 flex-row justify-between p-6 items-center"
@@ -113,15 +133,18 @@ export default function Index() {
             />
           </View>
         )}
-        <View style={{ marginRight: -20 }}>
+        <View>
           <FlatList
+            ref={flatListRef}
             keyExtractor={(item) => item.name}
             contentContainerStyle={{
               gap: 12,
+              marginHorizontal: 24,
+              paddingRight: 48,
             }}
             style={{
               flexGrow: 0,
-              paddingBottom: 40,
+              paddingBottom: 28,
             }}
             showsHorizontalScrollIndicator={false}
             data={categories}
@@ -160,6 +183,7 @@ export default function Index() {
           onScroll={handleScroll}
           scrollEventThrottle={1000}
           ref={scrollViewRef}
+          contentContainerStyle={{ paddingHorizontal: 24 }}
         >
           {categories.map((category, index) => (
             <View
