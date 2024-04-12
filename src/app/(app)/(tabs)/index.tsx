@@ -19,7 +19,7 @@ import { twMerge } from "tailwind-merge";
 const categories = [
   {
     name: "SANDWICH",
-    title: "Sanduiches",
+    title: "Sanduíches",
   },
   {
     name: "SIDE",
@@ -119,10 +119,10 @@ export default function Index() {
             }}
           >
             <View className="flex-row items-baseline gap-2">
-              <Text className="text-foreground-primary text-2xl">
+              <Text className="text-foreground-primary font-regular text-2xl">
                 {BRL(totalPrice)}
               </Text>
-              <Text className="text-foreground-secondary">
+              <Text className="text-foreground-secondary font-light">
                 / {items.length} {items.length > 1 ? "itens" : "item"}
               </Text>
             </View>
@@ -165,8 +165,8 @@ export default function Index() {
                     <Text
                       className={
                         currentCategoryIndex === index
-                          ? "text-foreground-primary font-medium"
-                          : "text-foreground-primary"
+                          ? "text-foreground-primary font-semibold"
+                          : "text-foreground-primary font-regular"
                       }
                     >
                       {item.title}

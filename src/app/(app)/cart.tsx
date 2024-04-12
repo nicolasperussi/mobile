@@ -32,11 +32,13 @@ function Cart() {
       {selectedAddress ? (
         <Pressable
           onPress={() => router.push("/(app)/address")}
-          className="w-full p-8 border border-foreground-primary rounded-lg flex-row justify-between items-center"
+          className="w-full p-8 border border-foreground-secondary rounded-lg flex-row justify-between items-center"
         >
           <View>
-            <Text className="text-sm text-foreground-primary">Entregar em</Text>
-            <Text className="text-xl text-foreground-primary">
+            <Text className="text-sm font-regular text-foreground-secondary">
+              Entregar em
+            </Text>
+            <Text className="text-xl font-medium text-foreground-primary">
               {selectedAddress.street}, {selectedAddress.number}
             </Text>
           </View>
@@ -45,9 +47,9 @@ function Cart() {
       ) : (
         <Pressable
           onPress={() => router.push("/(app)/address")}
-          className="w-full p-8 border border-foreground-primary rounded-lg flex-row justify-between items-center"
+          className="w-full p-8 border border-foreground-secondary rounded-lg flex-row justify-between items-center"
         >
-          <Text className="text-xl text-foreground-primary">
+          <Text className="text-xl font-medium text-foreground-primary">
             Adicionar novo endereço
           </Text>
           <Icon name="plus" color={colors.tint} size={20} />

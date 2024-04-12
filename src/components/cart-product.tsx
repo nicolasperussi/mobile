@@ -21,28 +21,31 @@ function CartProduct({ product, quantity }: CartProductProps) {
         contentFit="cover"
         source={`http://192.168.0.167:3003/images/${product.slug}.jpg`}
       />
-      <View className="justify-between flex-1">
-        <Text className="font-medium text-foreground-primary" numberOfLines={1}>
+      <View className="gap-4 justify-center flex-1">
+        <Text
+          className="font-medium text-lg text-foreground-primary"
+          numberOfLines={1}
+        >
           {product.name}
         </Text>
-        <View className="flex-row rounded-lg items-center gap-8">
+        <View className="flex-row rounded-lg items-center gap-6">
           <TouchableOpacity
-            activeOpacity={0.8}
+            activeOpacity={0.5}
             onPress={() => removeFromCart(product, 1)}
           >
             <View className="p-3 bg-background-primary rounded-lg">
-              <Icon name="minus" size={20} color={colors.foreground.primary} />
+              <Icon name="minus" size={16} color={colors.foreground.primary} />
             </View>
           </TouchableOpacity>
           <Text className="text-center w-5 font-medium text-foreground-primary">
             {quantity}
           </Text>
           <TouchableOpacity
-            activeOpacity={0.8}
+            activeOpacity={0.5}
             onPress={() => addToCart(product, 1)}
           >
             <View className="p-3 bg-background-primary rounded-lg">
-              <Icon name="plus" size={20} color={colors.foreground.primary} />
+              <Icon name="plus" size={16} color={colors.foreground.primary} />
             </View>
           </TouchableOpacity>
         </View>

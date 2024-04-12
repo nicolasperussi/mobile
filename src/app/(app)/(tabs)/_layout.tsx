@@ -23,6 +23,7 @@ export default function TabLayout() {
           borderTopWidth: 0,
         },
         tabBarActiveTintColor: colors.tint,
+        tabBarLabelStyle: { fontFamily: "Poppins_400Regular" },
       }}
     >
       <Tabs.Screen

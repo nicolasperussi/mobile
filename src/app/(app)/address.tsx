@@ -42,7 +42,7 @@ function Address() {
       className="flex-1 bg-background-secondary px-8 pt-4 pb-10 gap-8"
     >
       <TextInput
-        className="h-16 bg-background-primary rounded-xl px-4 text-foreground-primary"
+        className="h-16 bg-background-primary font-regular rounded-xl px-4 text-foreground-primary"
         placeholderClassName="text-foreground-secondary"
         placeholder="Pesquisar endereço..."
         onChangeText={setAddressSearch}
@@ -56,11 +56,11 @@ function Address() {
             i === 0 && "border-tint"
           )}
         >
-          <View className="gap-1 w-[60%]">
-            <Text className="text-xl text-foreground-primary">
+          <View className="gap-1 flex-1">
+            <Text className="text-xl font-regular text-foreground-primary">
               {address.street}, {address.number}
             </Text>
-            <Text className="text-sm text-foreground-secondary">
+            <Text className="text-sm font-light text-foreground-secondary">
               {address.cep}
             </Text>
           </View>

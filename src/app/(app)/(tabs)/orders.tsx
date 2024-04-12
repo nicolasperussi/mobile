@@ -43,7 +43,7 @@ function Orders() {
                         getOrderStatus(order.status).color
                       )}
                     />
-                    <Text className="text-foreground-secondary">
+                    <Text className="text-foreground-secondary font-regular">
                       {getOrderStatus(order.status).display}
                     </Text>
                   </View>
@@ -63,11 +63,11 @@ function Orders() {
                       className="flex-row gap-2 items-center"
                     >
                       <View className="size-8 items-center justify-center rounded-full bg-background-primary">
-                        <Text className="text-foreground-secondary">
+                        <Text className="text-foreground-secondary font-regular">
                           {item.quantity}
                         </Text>
                       </View>
-                      <Text className="text-foreground-secondary">
+                      <Text className="text-foreground-secondary font-regular">
                         {item.product.name}
                       </Text>
                     </View>
@@ -76,11 +76,11 @@ function Orders() {
                   <>
                     <View className="flex-row gap-2 items-center">
                       <View className="size-8 items-center justify-center rounded-full bg-background-primary">
-                        <Text className="text-foreground-secondary">
+                        <Text className="text-foreground-secondary font-regular">
                           {order.items[0].quantity}
                         </Text>
                       </View>
-                      <Text className="text-foreground-secondary">
+                      <Text className="text-foreground-secondary font-regular">
                         {order.items[0].product.name}
                       </Text>
                     </View>

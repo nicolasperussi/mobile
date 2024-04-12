@@ -17,14 +17,17 @@ function ProductCard(props: IProduct) {
         contentFit="cover"
         source={`http://192.168.0.167:3003/images/${props.slug}.jpg`}
       />
-      <View className="p-3 flex-1">
+      <View className="p-3 gap-1/2 flex-1">
         <Text
           className="font-medium text-lg text-foreground-primary"
           numberOfLines={1}
         >
           {props.name}
         </Text>
-        <Text className="text-foreground-primary text-xs" numberOfLines={2}>
+        <Text
+          className="text-foreground-primary font-regular text-xs"
+          numberOfLines={2}
+        >
           {props.overview}
         </Text>
         <Text

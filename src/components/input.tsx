@@ -17,7 +17,7 @@ export function Input(props: InputProps) {
         </Text>
       )}
       <TextInput
-        className="h-16 bg-background-secondary rounded-xl px-4 text-foreground-primary"
+        className="h-16 bg-background-secondary font-regular rounded-xl px-4 text-foreground-primary"
         placeholderClassName="text-foreground-secondary"
         autoCapitalize={props.capitalize ? "sentences" : "none"}
         {...props}
@@ -36,7 +36,7 @@ export function PasswordInput(props: InputProps) {
       )}
       <TextInput
         secureTextEntry={true}
-        className="h-16 bg-background-secondary rounded-xl px-4 text-foreground-primary"
+        className="h-16 bg-background-secondary font-regular rounded-xl px-4 text-foreground-primary"
         placeholderClassName="text-foreground-secondary"
         autoCapitalize={props.capitalize ? "sentences" : "none"}
         {...props}

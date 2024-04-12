@@ -54,7 +54,7 @@ function Product() {
         <ScrollView>
           <Text
             style={{ lineHeight: 24 }}
-            className="text-foreground-primary mt-6"
+            className="text-foreground-primary font-regular mt-6"
           >
             {product.description}
           </Text>
@@ -77,7 +77,7 @@ function Product() {
                   />
                 </View>
               </TouchableOpacity>
-              <Text className="text-center w-16 text-foreground-primary">
+              <Text className="text-center w-16 font-regular text-foreground-primary">
                 {quantity}
               </Text>
               <TouchableOpacity
