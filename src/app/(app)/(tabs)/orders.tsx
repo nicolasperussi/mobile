@@ -1,11 +1,13 @@
 import { useOrders } from "@/contexts/orders";
 import { Image } from "expo-image";
 import { Pressable, ScrollView, Text, View } from "react-native";
-import Icon from "@expo/vector-icons/FontAwesome5";
+import Icon from "@expo/vector-icons/FontAwesome6";
 import { colors } from "@/styles/colors";
 import dayjs from "dayjs";
 import ptBR from "dayjs/locale/pt-br";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import getOrderStatus from "@/utils/order-status";
+import { twMerge } from "tailwind-merge";
 
 dayjs.locale(ptBR);
 dayjs.extend(localizedFormat);
@@ -19,6 +21,7 @@ function Orders() {
           contentContainerStyle={{ gap: 24, paddingVertical: 24 }}
           showsVerticalScrollIndicator={false}
         >
+          {/* TODO: redirect to order page on press */}
           {orders.map((order) => (
             <View
               key={order.id}
@@ -33,10 +36,17 @@ function Orders() {
                   <Text className="text-2xl text-foreground-primary font-medium">
                     Pedido nº {order.id}
                   </Text>
-                  {/* TODO: take function to display status from other app */}
-                  <Text className="text-foreground-secondary">
-                    Status do Pedido
-                  </Text>
+                  <View className="flex-row gap-2 items-center">
+                    <View
+                      className={twMerge(
+                        "size-4 items-center justify-center rounded-full",
+                        getOrderStatus(order.status).color
+                      )}
+                    />
+                    <Text className="text-foreground-secondary">
+                      {getOrderStatus(order.status).display}
+                    </Text>
+                  </View>
                 </View>
                 <Icon
                   size={20}

@@ -156,7 +156,7 @@ export default function Index() {
                 >
                   <View
                     className={twMerge(
-                      "rounded-lg px-6 h-16 justify-center",
+                      "rounded-lg px-6 h-14 justify-center",
                       currentCategoryIndex === index
                         ? "bg-tint"
                         : "bg-background-secondary"

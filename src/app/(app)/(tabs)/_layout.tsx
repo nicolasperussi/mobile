@@ -1,14 +1,9 @@
 import AddressHeader from "@/components/address-header";
 import Header from "@/components/header";
-import { useSession } from "@/contexts/authentication";
 import { colors } from "@/styles/colors";
 import Icon from "@expo/vector-icons/FontAwesome5";
 import { Tabs } from "expo-router";
-import { Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-// import Header from "../../components/Header";
-// import { useTheme } from "../../theme";
+import { Text } from "react-native";
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof Icon>["name"];
@@ -18,9 +13,7 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const statusBarInsets = useSafeAreaInsets();
-  const { session, user } = useSession();
-
+  // TODO: change tab bar style to figma layout
   return (
     <Tabs
       screenOptions={{

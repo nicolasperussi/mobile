@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { IProduct } from "@/types/product.interface";
 import { api } from "@/services/api";
 import { useSession } from "./authentication";
+import { useOrders } from "./orders";
+import { useRouter } from "expo-router";
 
 const CartContext = React.createContext<{
   items: Array<{ product: IProduct; quantity: number }>;
@@ -37,6 +39,8 @@ export function CartProvider(props: React.PropsWithChildren) {
   >([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const { session, user } = useSession();
+  const { addOrder } = useOrders();
+  const router = useRouter();
 
   function calculateTotalPrice(
     items: Array<{ product: IProduct; quantity: number }>
@@ -67,9 +71,14 @@ export function CartProvider(props: React.PropsWithChildren) {
     };
     clearCart();
     // TODO: redirect to success page on success
-    api.post("/orders", newOrder, {
-      headers: { Authorization: `Bearer ${session}` },
-    });
+    api
+      .post("/orders", newOrder, {
+        headers: { Authorization: `Bearer ${session}` },
+      })
+      .then((res) => {
+        addOrder(res.data);
+        router.push("/(app)/(tabs)/orders");
+      });
   }
 
   function clearCart() {

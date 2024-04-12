@@ -6,9 +6,11 @@ import { useSession } from "./authentication";
 const OrderContext = React.createContext<{
   orders: Array<IOrder>;
   isLoading: boolean;
+  addOrder(order: IOrder): void;
 }>({
   orders: [],
   isLoading: false,
+  addOrder: () => {},
 });
 
 export function useOrders() {
@@ -27,6 +29,10 @@ export function OrderProvider(props: React.PropsWithChildren) {
   const [orders, setOrders] = useState<Array<IOrder>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  function addOrder(order: IOrder) {
+    setOrders((prev) => [order, ...prev]);
+  }
+
   useEffect(() => {
     if (!(isLoadingSession || isLoadingUser)) {
       api
@@ -42,7 +48,7 @@ export function OrderProvider(props: React.PropsWithChildren) {
   }, [isLoadingSession, isLoadingUser]);
 
   return (
-    <OrderContext.Provider value={{ orders, isLoading }}>
+    <OrderContext.Provider value={{ orders, isLoading, addOrder }}>
       {props.children}
     </OrderContext.Provider>
   );
