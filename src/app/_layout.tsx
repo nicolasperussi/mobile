@@ -5,6 +5,9 @@ import { OrderProvider } from "@/contexts/orders";
 import { ProductProvider } from "@/contexts/products";
 import { CartProvider } from "@/contexts/cart";
 
+import { TextEncoder, TextDecoder } from "text-encoding";
+Object.assign(global, { TextEncoder, TextDecoder });
+
 import { SplashScreen, Slot } from "expo-router";
 import {
   useFonts,

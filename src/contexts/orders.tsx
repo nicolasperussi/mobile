@@ -3,6 +3,9 @@ import { IOrder } from "@/types/order.interface";
 import { api } from "@/services/api";
 import { useSession } from "./authentication";
 
+import SockJS from "sockjs-client";
+import Stomp from "@stomp/stompjs";
+
 const OrderContext = React.createContext<{
   orders: Array<IOrder>;
   isLoading: boolean;
@@ -51,6 +54,25 @@ export function OrderProvider(props: React.PropsWithChildren) {
   useEffect(() => {
     if (!(isLoadingSession || isLoadingUser)) {
       fetchOrders();
+      const client = new Stomp.Client();
+      client.webSocketFactory = () =>
+        new SockJS("http://192.168.0.167:3003/scriptburger-ws") as any;
+
+      client.onStompError = (err) => console.log(err);
+
+      client.onConnect = function (frame) {
+        console.log("Connected to WebSocket");
+        client.subscribe(`/topic/orders/${user!.id}`, (message) => {
+          const updatedOrder: IOrder = JSON.parse(message.body);
+
+          setOrders((prevOrders) => [
+            updatedOrder,
+            ...prevOrders.filter((order) => order.id !== updatedOrder.id),
+          ]);
+        });
+      };
+
+      client.activate();
     }
   }, [isLoadingSession, isLoadingUser]);
 
